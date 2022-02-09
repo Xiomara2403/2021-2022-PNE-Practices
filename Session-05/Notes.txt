@@ -1,0 +1,4 @@
+If we are inside a directory and there are files an a directory inside, and we want to access
+the file inside the directory, then we put: ./directory name/filename
+If you want to go up, and change into another directory, outside the one you are now, then:
+../up directory name/filename
