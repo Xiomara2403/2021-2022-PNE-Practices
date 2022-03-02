@@ -1,4 +1,4 @@
 import Seq0
-filename = Seq0.valid_filename()  # U5.txt
+filename = Seq0.valid_filename()
 seq = Seq0.seq_read_fasta(filename)
-print(seq[:20])
+print("The first 20 bases are:\n" + seq[:20])
