@@ -1,7 +1,7 @@
 import socket
 
 # Configure the Server's IP and PORT
-PORT = 8000
+PORT = 8080
 IP = "127.0.0.1"  # If we change server, ALWAYS STOP IT
 # no IP works as well as specify the IP of the server
 MAX_OPEN_REQUESTS = 5

@@ -13,11 +13,11 @@ f = s.valid_filename()
 seq = s.read_fasta(f)
 
 IP = "127.0.0.1"
-PORT = 8000
+PORT = 8080
 c1 = Client(IP, PORT)
 print(c1)
 
-PORT2 = 8001
+PORT2 = 8081
 c2 = Client(IP, PORT2)
 print(c2)
 
@@ -35,7 +35,7 @@ c1.talk(f"Sending {gene} Gene to the server, in fragments of 10 bases")
 c2.talk(f"Sending {gene} Gene to the server, in fragments of 10 bases")
 
 for k in d:
-    if str(k) % 2 == 0:
+    if k % 2 == 0:
         c1.talk(f"Fragment {k}: {d[k]}")
     else:
         c2.talk(f"Fragment {k}: {d[k]}")
