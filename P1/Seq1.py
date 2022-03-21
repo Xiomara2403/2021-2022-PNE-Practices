@@ -91,7 +91,7 @@ class Seq:
             try:
                 FOLDER = "../Session-04/"
                 FILENAME = input("What do you want to open?: ")
-                filename = FOLDER + FILENAME
+                filename = FOLDER + FILENAME + ".txt"
                 exit = True
                 return filename
             except FileNotFoundError:

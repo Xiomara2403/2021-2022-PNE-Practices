@@ -1,7 +1,21 @@
 import socket
 from P1.Seq1 import Seq
-from P2.Client0 import Client
 import termcolor
+
+
+def percentages(d):
+    p = {"A": 0, "C": 0, "G": 0, "T": 0}
+    total = sum(d.values())
+    for k, v in d.items():
+        p[k] = v * 100 / total
+    return p
+
+def convert_message(d, p):
+    message = ""
+    for k, v in d.items():
+        message += k + ": " + str(v) + " (" + str(round(p[k], 2)) + "%)" + "\n"
+    return message
+
 
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -39,7 +53,11 @@ while True:
             print(response)
 
         elif cmd == "GET":
-            genes = ["ACTG", "ATGT", "CGTA", "CCCC", "ATCG"]
+            genes = ["ACCTCCTCTCCAGCAATGCCAACCCCAGTCCAGGCCCCCATCCGCCCAGGATCTCGATCA",
+                     "AAAAACATTAATCTGTGGCCTTTCTTTGCCATTTCCAACTCTGCCACCTCCATCGAACGA",
+                     "CAAGGTCCCCTTCTTCCTTTCCATTCCCGTCAGCTTCATTTCCCTAATCTCCGTACAAAT",
+                     "CCCTAGCCTGACTCCCTTTCCTTTCCATCCTCACCAGACGCCCGCATGCCGGACCTCAAA",
+                     "AGCGCAAACGCTAAAAACCGGTTGAGTTGACGCACGGAGAGAAGGGGTGTGTGGGTGGGT"]
             arg = splitted_comand[1]
             print(arg)
             if int(arg) < 5:
@@ -51,17 +69,10 @@ while True:
         elif cmd == "INFO":
             arg = splitted_comand[1]
             print(arg)
-            length = len(arg) + 1
-            d = {"A": 0, "C": 0, "G": 0, "T": 0}
-            percentages = []
-            for b in arg:
-                d[b] += 1
-            for c in d.values():
-                p = c * 100 / length
-                percentages.append(p)
-            response = f'A: {d["A"]} ({percentages[0]})\nC: {d["C"]} ({percentages[1]})\n' \
-                       f'G: {d["G"]} ({percentages[2]})\nT: {d["T"]} ({percentages[3]})\n'
-            print(response)
+            s = Seq(arg)
+            d = s.count_bases()
+            p = percentages(d)
+            response = convert_message(d, p)
 
         elif cmd == "COMP":
             arg = splitted_comand[1]
@@ -73,7 +84,12 @@ while True:
             print(arg)
             response = arg[::-1]
         elif cmd == "GENE":
-            pass
+            arg = splitted_comand[1]
+            print(arg)
+            s = Seq(arg)
+            f = "../Session-04/" + arg +".txt"
+            seq = s.read_fasta(f)
+            response = seq
 
         else:
             response = "This command is not available in the server\n"
