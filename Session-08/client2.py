@@ -2,8 +2,8 @@ import socket
 import termcolor  # pip install termcolor, or colorama
 
 # SERVER IP, PORT
-PORT = 21000
-IP = "212.128.253.64"  # url of the computer, or ip 127.0.0.1
+PORT = 8080
+IP = "127.0.0.1"  # url of the computer, or ip 127.0.0.1
 
 # First, create the socket
 # We will always use this parameters: AF_INET y SOCK_STREAM

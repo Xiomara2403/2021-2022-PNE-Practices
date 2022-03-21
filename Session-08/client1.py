@@ -4,7 +4,7 @@ import socket
 # Write here the correct parameter for connecting to the
 # Teacher's server
 PORT = 8000
-IP = "localhost"
+IP = "127.0.0.1"
 
 
 # First, create the socket
@@ -20,3 +20,4 @@ s.send(str.encode("HELLO FROM THE CLIENT!!!"))
 
 # Closing the socket
 s.close()
+
