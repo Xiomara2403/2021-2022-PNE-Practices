@@ -98,13 +98,16 @@ class Seq:
                 print("no")
 
     def read_fasta(self, filename):
-        f = open(filename, "r").read()
-        self.strbases = f[f.find("\n"):].replace("\n", "")
-        if self.valid_sequence():
-            seq = self.strbases
-            return seq
-        else:
-            return "no"
+        try:
+            f = open(filename, "r").read()
+            self.strbases = f[f.find("\n"):].replace("\n", "")
+            if self.valid_sequence():
+                seq = self.strbases
+                return seq
+            else:
+                return "It is not a valid sequence"
+        except FileNotFoundError:
+            return "Gene not found"
 
     def most_common_base(self):
         count_dict = self.count_bases()
