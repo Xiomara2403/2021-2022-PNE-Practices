@@ -19,25 +19,16 @@ for i in range(5):
         get0 = response
     print(f"GET {i}: {response}")
 
+cmd_list = ["INFO", "COMP", "REV"]
+for e in cmd_list:
+    print(f"* Testing {e}...")
+    msg = e + " " + get0
+    response = c.talk(msg)
+    if e != "INFO":
+        print(msg)
+    print(response + "\n")
+
 gene_list = ["U5", "FRAT1", "ADA", "FXN", "RNU6_269P"]
-
-print("* Testing INFO...")
-msg = "INFO " + get0
-response = c.talk(msg)
-print(response + "\n")
-
-print("* Testing COMP...")
-msg = "COMP " + get0
-print(msg, end= "")
-response = c.talk(msg)
-print(response + "\n")
-
-print("* Testing REV...")
-msg = "REV " + get0
-print(msg, end= "")
-response = c.talk(msg)
-print(response + "\n")
-
 print("* Testing GENE...")
 for e in gene_list:
     msg = "GENE " + str(e)
