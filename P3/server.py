@@ -3,12 +3,22 @@ from P1.Seq1 import Seq
 import termcolor
 
 
+def sum_bases():
+    d_valid = {"A": 4, "C": -3, "G": 7, "T": -6}
+    sum_list = []
+    for b in str(s):
+        sum_list.append(int(d_valid[b]))
+    r = sum(sum_list)
+    return r
+
+
 def percentages(d):
     p = {"A": 0, "C": 0, "G": 0, "T": 0}
     total = sum(d.values())
     for k, v in d.items():
         p[k] = v * 100 / total
     return p
+
 
 def convert_message(d, p):
     message = ""
@@ -76,10 +86,12 @@ while True:
             print(arg)
             s = Seq(arg)
             response = s.complement()
+
         elif cmd == "REV":
             arg = splitted_comand[1]
             print(arg)
             response = arg[::-1]
+
         elif cmd == "GENE":
             arg = splitted_comand[1]
             print(arg)
@@ -88,6 +100,16 @@ while True:
             seq = s.read_fasta(f)
             response = seq
 
+        elif cmd == "OPE":
+            arg = splitted_comand[1]
+            print(arg)
+            s = Seq(arg)
+            if s.valid_sequence():
+                r = sum_bases()
+                response = str(r)
+            else:
+                response = "We could not add the bases since the sequence is not correct."
+            print(response)
         else:
             response = "This command is not available in the server\n"
         cs.send(response.encode())
