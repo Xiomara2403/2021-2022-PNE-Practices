@@ -17,9 +17,6 @@ def convert_message(d, p):
     return message
 
 
-ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
 PORT = 8000
 IP = "127.0.0.1"  # ipconfig en terminal para conectarme a otro servidor -> ip wifi
 
@@ -87,7 +84,7 @@ while True:
             arg = splitted_comand[1]
             print(arg)
             s = Seq(arg)
-            f = "../Session-04/" + arg +".txt"
+            f = "../Session-04/" + arg + ".txt"
             seq = s.read_fasta(f)
             response = seq
 

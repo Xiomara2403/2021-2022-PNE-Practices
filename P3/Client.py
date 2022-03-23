@@ -8,45 +8,38 @@ PORT = 8000
 c = Client(IP, PORT)
 print(c)
 
-command_list = ["PING", "GET", "INFO", "COMP", "REV", "GENE"]
+print("* Testing PING...")
+response = c.talk("PING")
+print(response)
 
-gene_list = ["ADA", "FRAT1", "FXN", "RNU6_269P", "U5"]
+print("* Testing GET...")
+for i in range(5):
+    response = c.talk(f"GET {i}")
+    if i == 0:
+        get0 = response
+    print(f"GET {i}: {response}")
 
-for cmd in command_list:
-    print("* Testing " + cmd + "...")
-    if cmd == "PING":
-        response = c.talk(cmd)
-        print(response)
+gene_list = ["U5", "FRAT1", "ADA", "FXN", "RNU6_269P"]
 
-    elif cmd == "GET":
-        for e in range(5):
-            msg = cmd + " " + str(e)
-            response = c.talk(msg)
-            if e == 0:
-                get0 = response
+print("* Testing INFO...")
+msg = "INFO " + get0
+response = c.talk(msg)
+print(response + "\n")
 
-            print(f"{cmd} {e}: {response}", end= "" )
-        print()
+print("* Testing COMP...")
+msg = "COMP " + get0
+print(msg, end= "")
+response = c.talk(msg)
+print(response + "\n")
 
-    elif cmd == "INFO":
-        msg = cmd + " " + get0
-        response = c.talk(msg)
-        print(response)
+print("* Testing REV...")
+msg = "REV " + get0
+print(msg, end= "")
+response = c.talk(msg)
+print(response + "\n")
 
-    elif cmd == "COMP":
-        msg = cmd + " " + get0
-        print(msg, end= "")
-        response = c.talk(msg)
-        print(response)
-
-    elif cmd == "REV":
-        msg = cmd + " " + get0
-        print(msg, end= "")
-        response = c.talk(msg)
-        print(response)
-
-    elif cmd == "GENE":
-        for e in gene_list:
-            msg = cmd + " " + str(e)
-            response = c.talk(msg)
-            print(f"{cmd} {e}:\n{response}\n[...]\n{response[-10:]}\n")
+print("* Testing GENE...")
+for e in gene_list:
+    msg = "GENE " + str(e)
+    response = c.talk(msg)
+    print(f"GENE {e}:\n{response}\n")
