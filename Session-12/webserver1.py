@@ -1,5 +1,7 @@
 import http.server
 import socketserver
+# STOP SERVER pressing: CONTROL + C
+# CONTROL + SHIFT + SUPR in order to delete caché when we do changes in the html
 
 # Define the Server's port
 PORT = 8080

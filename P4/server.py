@@ -9,27 +9,16 @@ PORT = 8080
 
 
 def process_client(s):
-    # -- Receive the request message
     req_raw = s.recv(2000)
     req = req_raw.decode()
-
     print("Message FROM CLIENT: ")
 
-    # -- Split the request messages into lines
     lines = req.split('\n')
-
-    # -- The request line is the first
     req_line = lines[0]
 
     print("Request line: ", end="")
     termcolor.cprint(req_line, "green")
 
-    # -- Generate the response message
-    # It has the following lines
-    # Status line
-    # header
-    # blank line
-    # Body (content to send)
     route = req_line.split(" ")[1]
     print("ROUTE", route)
     if route == "/":

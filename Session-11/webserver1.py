@@ -1,7 +1,7 @@
 import socket
 import termcolor
-
-
+# STOP SERVER pressing: CONTROL + C
+# CONTROL + SHIFT + SUPR in order to delete caché when we do changes in the html
 # -- Server network parameters
 IP = "127.0.0.1"
 PORT = 8080
