@@ -118,3 +118,16 @@ class Seq:
             elif int(count_dict[b]) > count_dict[most_common]:
                 most_common = b
         return most_common
+
+    def percentages(d):
+        p = {"A": 0, "C": 0, "G": 0, "T": 0}
+        total = sum(d.values())
+        for k, v in d.items():
+            p[k] = v * 100 / total
+        return p
+
+    def convert_message(d, p):
+        message = ""
+        for k, v in d.items():
+            message += k + ": " + str(v) + " (" + str(round(p[k], 2)) + "%)" + "\n"
+        return message
