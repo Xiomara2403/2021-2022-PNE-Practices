@@ -30,8 +30,9 @@ for path in path_list:
 
     elif path == "/geneList":
         chromosome = input("Enter a chromosome: ")
-        start = input("Select the start point: ")
-        end = input("Select the end point: ")
+        start = input("Select the start: ")
+        end = input("Select the end: ")
+
         params = "?chromosome=" + chromosome + "&start=" + start + "&end=" + end + "&json=1"
     elif path == "/geneSeq":
         params = "?gene=" + g + "&json=1"

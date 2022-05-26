@@ -32,7 +32,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         print("arguments", arguments)
 
         if self.path == "/" or self.path == "/favicon.ico":
-            contents = f.read_html_file("basic_index.html") \
+            contents = f.read_html_file("index_exam.html") \
                     .render(context = {})
         elif path == "/listSpecies":
             dict_answer = f.make_ensembl_request("/info/species", PARAMS)
@@ -49,11 +49,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         v = dict_species[i]
                         v = v["display_name"]
                         list_species.append(v)
-                    if len(list_species) == 0:
-                        contents = pathlib.Path("html/error.html").read_text()
-                    else:
-                        contents = f.read_html_file("list_species.html") \
-                            .render(context={"n_species": n_species, "max_value": max_value, "list_species": list_species})
+                    contents = f.read_html_file("list_species.html") \
+                        .render(context={"n_species": n_species, "max_value": max_value, "list_species": list_species})
                 else:
                     contents = pathlib.Path("html/error.html").read_text()
             except ValueError:
@@ -69,15 +66,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 contents = pathlib.Path("html/error.html").read_text()
         elif path == "/chromosomeLength":
             try:
-                n_chromosome = int(arguments["chromo"][0])
+                minlength = int(arguments["minlength"][0])
                 specie = arguments["specie"][0]
                 dicts_specie = f.make_ensembl_request("/info/assembly/" + specie, PARAMS)
                 dicts_specie = dicts_specie["top_level_region"]
+                chromo_list = []
                 for d in dicts_specie:
-                    if d["name"] == str(n_chromosome):
-                        length = d["length"]
-                contents = f.read_html_file("length.html")\
-                    .render(context={"specie": specie, "n_chromosome": n_chromosome, "length": length})
+                    if d["length"] > minlength and d["coord_system"] == "chromosome" and minlength >= 0:
+                        c = d["name"]
+                        chromo_list.append(c)
+                    else:
+                        pass
+                if len(chromo_list) == 0:
+                    contents = pathlib.Path("html/error.html").read_text()
+                else:
+                    contents = f.read_html_file("length_exam.html")\
+                        .render(context={"specie": specie, "minlength": minlength, "chromo_list": chromo_list})
             except:
                 contents = pathlib.Path("html/error.html").read_text()
         else:

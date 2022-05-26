@@ -68,8 +68,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         v = dict_species[i]
                         v = v["display_name"]
                         list_species.append(v)
-                    filename = "list_species.html"
-                    contents = {"n_species": n_species, "max_value": max_value, "list_species": list_species}
+                    if len(list_species) == 0:
+                        filename = "error.html"
+                        contents = {}
+                    else:
+                        filename = "list_species.html"
+                        contents = {"n_species": n_species, "max_value": max_value, "list_species": list_species}
                 else:
                     filename = "error.html"
                     contents = {}
@@ -116,8 +120,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             if "associated_gene" in a:
                                 gen = a["associated_gene"]
                                 gen_list.append(gen)
-                    filename = "genelist.html"
-                    contents = {"chromosome": chromosome, "start": start, "end": end, "gen_list": gen_list}
+                    if len(gen_list) == 0:
+                        filename = "error.html"
+                        contents = {}
+                    else:
+                        filename = "genelist.html"
+                        contents = {"chromosome": chromosome, "start": start, "end": end, "gen_list": gen_list}
                 except:
                     filename = "error.html"
                     contents = {}

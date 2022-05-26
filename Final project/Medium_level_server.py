@@ -66,8 +66,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         v = dict_species[i]
                         v = v["display_name"]
                         list_species.append(v)
-                    contents = f.read_html_file("list_species.html")\
-                        .render(context={"n_species": n_species, "max_value": max_value, "list_species": list_species})
+                    if len(list_species) == 0:
+                        contents = pathlib.Path("html/error.html").read_text()
+                    else:
+                        contents = f.read_html_file("list_species.html")\
+                            .render(context={"n_species": n_species, "max_value": max_value, "list_species": list_species})
                 else:
                     contents = pathlib.Path("html/error.html").read_text()
             except ValueError:
@@ -110,8 +113,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             if "associated_gene" in a:
                                 gen = a["associated_gene"]
                                 gen_list.append(gen)
-                    contents = f.read_html_file("genelist.html") \
-                        .render(context={"chromosome": chromosome, "start": start, "end": end, "gen_list": gen_list})
+                    if len(gen_list) == 0:
+                        contents = pathlib.Path("html/error.html").read_text()
+                    else:
+                        contents = f.read_html_file("genelist.html") \
+                            .render(context={"chromosome": chromosome, "start": start, "end": end, "gen_list": gen_list})
                 except:
                     contents = pathlib.Path("html/error.html").read_text()
             else:
