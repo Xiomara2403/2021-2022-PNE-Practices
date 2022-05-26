@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GeneList</title>
+</head>
+<body>
+    <h1>{{context.chromosome}}</h1>
+    <p>Start: {{context.start}}</p>
+    <p>End: {{context.end}}</p>
+    <p>Genes found:
+        {% for g in context.gen_list %}
+            <ul><li>{{g}}</li></ul>
+            {% endfor %}
+    </p>
+    <br>
+    <a href="/">Main page</a>
+</body>
+</html>

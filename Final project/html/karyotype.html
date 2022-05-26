@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Karyotype of {{context.specie}}</title>
+</head>
+<body>
+    <p>The names of the chromosomes are:</p>
+    <p>{% for k in context.karyotype_list %}
+        <ul><li>{{k}}</li></ul>
+        {% endfor %}
+    </p>
+    <a href="/">Main page</a>
+</body>
+</html>
