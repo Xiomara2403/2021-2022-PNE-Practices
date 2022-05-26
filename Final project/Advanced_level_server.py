@@ -11,6 +11,8 @@ from functions import functions as f
 
 PARAMS = "?content-type=application/json"
 SERVER = "rest.ensembl.org"
+IP = "127.0.0.1"
+PORT = 8080
 
 gene_dict = {"SCARP": "ENSG00000080603",
            "FRAT1" : "ENSG00000165879",
@@ -24,8 +26,7 @@ gene_dict = {"SCARP": "ENSG00000080603",
            "KDR": "ENSG00000128052",
            "ANK2": "ENSG00000145362"
            }
-IP = "127.0.0.1"
-PORT = 8080
+
 socketserver.TCPServer.allow_reuse_address = True
 
 class TestHandler(http.server.BaseHTTPRequestHandler):
@@ -56,18 +57,23 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             dict_species = dict_answer["species"]
             max_value = len(dict_species)
             try:
-                n_species = int(arguments["limit"][0])
+                n_species = arguments["limit"][0]
             except KeyError:
                 n_species = 0
+
             list_species = []
-            if n_species <= max_value:
-                for i in range(0, n_species):
-                    v = dict_species[i]
-                    v = v["display_name"]
-                    list_species.append(v)
-                filename = "list_species.html"
-                contents = {"n_species": n_species, "max_value": max_value, "list_species": list_species}
-            else:
+            try:
+                if int(n_species) <= max_value:
+                    for i in range(0, int(n_species)):
+                        v = dict_species[i]
+                        v = v["display_name"]
+                        list_species.append(v)
+                    filename = "list_species.html"
+                    contents = {"n_species": n_species, "max_value": max_value, "list_species": list_species}
+                else:
+                    filename = "error.html"
+                    contents = {}
+            except ValueError:
                 filename = "error.html"
                 contents = {}
         elif path == "/karyotype":
@@ -146,20 +152,15 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             contents = {}
 
         self.send_response(200)
-        try:
-            if self.path.split("&")[1] == "json=1":
-                contents = json.dumps(contents)
-                self.send_header('Content-Type', 'application/json')
-        except:
+        if self.path.split("&")[-1] == "json=1":
+            contents = json.dumps(contents)
+            self.send_header('Content-Type', 'application/json')
+        else:
             contents = f.read_html_file(filename) \
                 .render(context=contents)
             self.send_header('Content-Type', 'text/html')
         self.send_header('Content-Length', len(str.encode(contents)))
-
-            # The header is finished
         self.end_headers()
-
-        # Send the response message
         self.wfile.write(str.encode(contents))
         return
 

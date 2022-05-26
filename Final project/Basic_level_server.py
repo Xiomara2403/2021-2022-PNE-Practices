@@ -39,18 +39,21 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             dict_species = dict_answer["species"]
             max_value = len(dict_species)
             try:
-                n_species = int(arguments["limit"][0])
+                n_species = arguments["limit"][0]
             except KeyError:
                 n_species = 0
             list_species = []
-            if n_species <= max_value:
-                for i in range(0, n_species):
-                    v = dict_species[i]
-                    v = v["display_name"]
-                    list_species.append(v)
-                contents = f.read_html_file("list_species.html")\
-                    .render(context={"n_species": n_species, "max_value": max_value, "list_species": list_species})
-            else:
+            try:
+                if int(n_species) <= max_value:
+                    for i in range(0, int(n_species)):
+                        v = dict_species[i]
+                        v = v["display_name"]
+                        list_species.append(v)
+                    contents = f.read_html_file("list_species.html") \
+                        .render(context={"n_species": n_species, "max_value": max_value, "list_species": list_species})
+                else:
+                    contents = pathlib.Path("html/error.html").read_text()
+            except ValueError:
                 contents = pathlib.Path("html/error.html").read_text()
         elif path == "/karyotype":
             try:

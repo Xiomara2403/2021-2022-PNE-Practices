@@ -33,7 +33,6 @@ for path in path_list:
         start = input("Select the start point: ")
         end = input("Select the end point: ")
         params = "?chromosome=" + chromosome + "&start=" + start + "&end=" + end + "&json=1"
-
     elif path == "/geneSeq":
         params = "?gene=" + g + "&json=1"
 
@@ -44,15 +43,18 @@ for path in path_list:
         params = "?gene=" + g + "&json=1"
 
     response = f.make_server_request(SERVER, path, params)
+
     print("Content:")
     if type(response) == dict:
-        for k,v in response.items():
+        for k, v in response.items():
             if type(v) == list:
-                print(f"{k}:")
+                t.cprint(k + ": ", "blue")
                 for items in v:
                     print(items)
             else:
-                print(f"{k}:{v}")
+                t.cprint(k + ": ", "blue")
+                print(v)
+
     if type(response) == list:
         for i in response:
             print(i)
